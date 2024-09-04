@@ -116,5 +116,8 @@ public class Robot extends TimedRobot {
       case 135: LSpeed = -1; RSpeed = 0; break;
       default: LSpeed = 0; RSpeed = 0; break;
       }
+
+      LSpeed *= velocity;
+      RSpeed *= velocity;
   }
 }
