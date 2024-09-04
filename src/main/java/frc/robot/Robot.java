@@ -83,13 +83,13 @@ public class Robot extends TimedRobot {
     if (POV != -1) pov(); else CalculateSpeed(Px, Py);
     if (Py2 != 0 && Py == 0) CalculateSpeed(Px2, Py2);
 
-    right_1.set(ControlMode.PercentOutput, RSpeed);
-    left_1.set(ControlMode.PercentOutput, LSpeed);
-
     if (TriggerValue != 0) {
       LSpeed *= TriggerValue;
       RSpeed *= TriggerValue;
     }
+
+    right_1.set(ControlMode.PercentOutput, RSpeed);
+    left_1.set(ControlMode.PercentOutput, LSpeed);
 
     a = joy.getRawButton(1);
     b = joy.getRawButton(2);
