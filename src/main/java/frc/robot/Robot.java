@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
       case 2: LSpeed = diff; RSpeed = mag + diff; break;
       case 3: LSpeed = diff * -1; RSpeed = (mag + diff) * -1; break;
       case 4: RSpeed = diff * -1; LSpeed = (mag + diff) * -1; break;
-      default: RSpeed = LSpeed = 0;
+      default: RSpeed = LSpeed = 0; break;
     }
 
     if (Px > 0 && Py == 0) LSpeed = 1; if (Px < 0 && Py == 0) RSpeed = 1;
@@ -117,7 +117,7 @@ public class Robot extends TimedRobot {
       default: LSpeed = 0; RSpeed = 0; break;
       }
 
-      LSpeed *= velocity;
-      RSpeed *= velocity;
+    LSpeed *= velocity;
+    RSpeed *= velocity;
   }
 }
