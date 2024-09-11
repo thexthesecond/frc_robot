@@ -51,8 +51,9 @@ public class Robot extends TimedRobot {
     if (Px == 0 && Py > 0) LSpeed = RSpeed = 1;
     if (Px == 0 && Py < 0) LSpeed = RSpeed = -1;
 
-    LSpeed = Math.max(-1, Math.min(1, LSpeed)) * velocity;
-    RSpeed = Math.max(-1, Math.min(1, RSpeed)) * velocity;
+    if (TriggerValue !=0 && (Px == 0 && Py == 0)) LSpeed = RSpeed += TriggerValue;
+    else 
+    if (TriggerValue !=0 && (Px != 0 && Py != 0)) LSpeed = RSpeed *= TriggerValue;
   }
 
   @Override
@@ -66,6 +67,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     right_1.setInverted(true);
+    left_1.setInverted(false);
     right_2.follow(right_1); 
     left_2.follow(left_1);
   }
@@ -81,15 +83,7 @@ public class Robot extends TimedRobot {
     TriggerValue = joy.getRawAxis(3) - joy.getRawAxis(2);
 
     if (POV != -1) pov(); else CalculateSpeed(Px, Py);
-    if (Py2 != 0 && Py == 0) CalculateSpeed(Px2, Py2);
-
-    if (TriggerValue != 0) {
-      LSpeed *= TriggerValue;
-      RSpeed *= TriggerValue;
-    }
-
-    right_1.set(ControlMode.PercentOutput, RSpeed);
-    left_1.set(ControlMode.PercentOutput, LSpeed);
+    if ((Px2 != 0 || Py2 != 0) && (Px == 0 && Py == 0)) CalculateSpeed(Px2, Py2);
 
     a = joy.getRawButton(1);
     b = joy.getRawButton(2);
@@ -98,6 +92,12 @@ public class Robot extends TimedRobot {
     if (b) velocity = 0.25;
     if (a) velocity = 0.5;
     if (x) velocity = 1;
+
+    LSpeed = Math.max(-1, Math.min(1, LSpeed)) * velocity;
+    RSpeed = Math.max(-1, Math.min(1, RSpeed)) * velocity;
+
+    right_1.set(ControlMode.PercentOutput, RSpeed);
+    left_1.set(ControlMode.PercentOutput, LSpeed);
 
     SmartDashboard.putNumber("Radiano", rad);
     SmartDashboard.putNumber("Esq", LSpeed);
@@ -116,8 +116,5 @@ public class Robot extends TimedRobot {
       case 135: LSpeed = -1; RSpeed = 0; break;
       default: LSpeed = 0; RSpeed = 0; break;
       }
-
-    LSpeed *= velocity;
-    RSpeed *= velocity;
   }
 }
