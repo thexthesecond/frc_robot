@@ -47,13 +47,16 @@ public class Robot extends TimedRobot {
       default: RSpeed = LSpeed = 0; break;
     }
 
-    if (Px > 0 && Py == 0) LSpeed = 1; if (Px < 0 && Py == 0) RSpeed = 1;
+    if (TriggerValue !=0 && (Px == 0 && Py == 0)) {
+      LSpeed = RSpeed += TriggerValue;
+    } else if (TriggerValue !=0 && (Px != 0 && Py != 0)) {
+      LSpeed = RSpeed *= TriggerValue;
+    } 
+
+    if (Px > 0 && Py == 0) LSpeed = 1; 
+    if (Px < 0 && Py == 0) RSpeed = 1;
     if (Px == 0 && Py > 0) LSpeed = RSpeed = 1;
     if (Px == 0 && Py < 0) LSpeed = RSpeed = -1;
-
-    if (TriggerValue !=0 && (Px == 0 && Py == 0)) LSpeed = RSpeed += TriggerValue;
-    else 
-    if (TriggerValue !=0 && (Px != 0 && Py != 0)) LSpeed = RSpeed *= TriggerValue;
   }
 
   @Override
@@ -82,8 +85,15 @@ public class Robot extends TimedRobot {
     
     TriggerValue = joy.getRawAxis(3) - joy.getRawAxis(2);
 
-    if (POV != -1) pov(); else CalculateSpeed(Px, Py);
-    if ((Px2 != 0 || Py2 != 0) && (Px == 0 && Py == 0)) CalculateSpeed(Px2, Py2);
+    if (POV != -1) {
+      pov();
+    } else {
+      CalculateSpeed(Px, Py);
+    }
+
+    if ((Px2 != 0 || Py2 != 0) && (Px == 0 && Py == 0)) {
+      CalculateSpeed(Px2, Py2);
+    }
 
     a = joy.getRawButton(1);
     b = joy.getRawButton(2);
