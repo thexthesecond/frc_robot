@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 
 public class Robot extends TimedRobot {
   
@@ -71,8 +72,11 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     right_1.setInverted(true);
     left_1.setInverted(false);
-    right_2.follow(right_1); 
+    
     left_2.follow(left_1);
+    right_2.follow(right_1);
+
+    right_2.setInverted(InvertType.FollowMaster); 
   }
 
   @Override
