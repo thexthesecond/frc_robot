@@ -48,16 +48,23 @@ public class Robot extends TimedRobot {
       default: RSpeed = LSpeed = 0; break;
     }
 
+    if (Px > 0 && Py == 0) {
+      RSpeed = -1; LSpeed = 1;
+    } 
+    if (Px < 0 && Py == 0) {
+      RSpeed = 1; LSpeed = -1;
+    }
+
+
+
+    if (Px == 0 && Py > 0) LSpeed = RSpeed = 1;
+    if (Px == 0 && Py < 0) LSpeed = RSpeed = -1;
+
     if (TriggerValue !=0 && (Px == 0 && Py == 0)) {
       LSpeed = RSpeed += TriggerValue;
     } else if (TriggerValue !=0 && (Px != 0 && Py != 0)) {
       LSpeed = RSpeed *= TriggerValue;
     } 
-
-    if (Px > 0 && Py == 0) LSpeed = 1; 
-    if (Px < 0 && Py == 0) RSpeed = 1;
-    if (Px == 0 && Py > 0) LSpeed = RSpeed = 1;
-    if (Px == 0 && Py < 0) LSpeed = RSpeed = -1;
   }
 
   @Override
@@ -66,6 +73,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Radiano", rad);
+    SmartDashboard.putNumber("Esq", LSpeed);
+    SmartDashboard.putNumber("Dir", RSpeed);
   }
   
   @Override
@@ -87,7 +97,7 @@ public class Robot extends TimedRobot {
     Px2 = Deadzone(-joy.getRawAxis(4), 0.05);
     Py2 = Deadzone(joy.getRawAxis(5), 0.05);
     
-    TriggerValue = joy.getRawAxis(3) - joy.getRawAxis(2);
+    TriggerValue = joy.getRawAxis(2) - joy.getRawAxis(3);
 
     if (POV != -1) {
       pov();
@@ -112,10 +122,6 @@ public class Robot extends TimedRobot {
 
     right_1.set(ControlMode.PercentOutput, RSpeed);
     left_1.set(ControlMode.PercentOutput, LSpeed);
-
-    SmartDashboard.putNumber("Radiano", rad);
-    SmartDashboard.putNumber("Esq", LSpeed);
-    SmartDashboard.putNumber("Dir", RSpeed);
   }
 
   void pov() {
