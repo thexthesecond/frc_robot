@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
   private VictorSPX left_2 = new VictorSPX(3);
 
   private Joystick joy = new Joystick(0);
-  private double Px,Py,Px2,Py2,rad, LSpeed, RSpeed, TriggerValue, diff, mag;
+  private double Px ,Py ,Px2 ,Py2 , rad, LSpeed, RSpeed, TriggerValue, diff, mag;
   private double velocity = 1;
   private boolean a,b,x;
   private int quad, POV;
@@ -55,8 +55,6 @@ public class Robot extends TimedRobot {
       RSpeed = 1; LSpeed = -1;
     }
 
-
-
     if (Px == 0 && Py > 0) LSpeed = RSpeed = 1;
     if (Px == 0 && Py < 0) LSpeed = RSpeed = -1;
 
@@ -91,10 +89,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     POV = joy.getPOV();
-    Px = Deadzone(joy.getRawAxis(0), 0.05);
-    Py = Deadzone(-joy.getRawAxis(1), 0.05);
-    Px2 = Deadzone(-joy.getRawAxis(4), 0.05);
-    Py2 = Deadzone(joy.getRawAxis(5), 0.05);
+    Px = Deadzone(joy.getRawAxis(0), 0.04);
+    Py = Deadzone(-joy.getRawAxis(1), 0.04);
+    Px2 = Deadzone(-joy.getRawAxis(4), 0.04);
+    Py2 = Deadzone(joy.getRawAxis(5), 0.04);
     
     TriggerValue = joy.getRawAxis(2) - joy.getRawAxis(3);
 
