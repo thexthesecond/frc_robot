@@ -85,7 +85,6 @@ public class Robot extends TimedRobot {
     
     left_2.follow(left_1);
     right_2.follow(right_1);
-
     right_2.setInverted(InvertType.FollowMaster); 
   }
 
@@ -125,16 +124,25 @@ public class Robot extends TimedRobot {
   }
 
   void pov() {
-    switch (POV) {
-      case 90: LSpeed = 1; RSpeed = -1; break;
-      case 45: LSpeed = 1; RSpeed = 0; break;
-      case 0: LSpeed = 1; RSpeed = 1; break;
-      case 315: LSpeed = 0; RSpeed = 1; break;
-      case 270: LSpeed = -1; RSpeed = 1; break;
-      case 225: LSpeed = 0; RSpeed = -1; break;
-      case 180: LSpeed = -1; RSpeed = -1; break;
-      case 135: LSpeed = -1; RSpeed = 0; break;
-      default: LSpeed = 0; RSpeed = 0; break;
+      switch (POV) {
+      case 90: LSpeed = 1; RSpeed = -1; 
+        break;
+      case 45: LSpeed = 1; RSpeed = 0; 
+        break;
+      case 0: LSpeed = 1; RSpeed = 1; 
+        break;
+      case 315: LSpeed = 0; RSpeed = 1; 
+        break;
+      case 270: LSpeed = -1; RSpeed = 1; 
+        break;
+      case 225: LSpeed = 0; RSpeed = -1; 
+        break;
+      case 180: LSpeed = -1; RSpeed = -1; 
+        break;
+      case 135: LSpeed = -1; RSpeed = 0; 
+        break;
+      default: LSpeed = 0; RSpeed = 0; 
+        break;
       }
   }
 }
