@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   }
 
   double CalcDiff(double rad) {
-    return Math.sin(rad) * Math.cos((Math.PI / 2) - rad);
+    return Math.pow(Math.sin(rad), 2);
   }
 
   void CalculateSpeed(double Px, double Py) {
