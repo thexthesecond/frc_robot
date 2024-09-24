@@ -15,13 +15,13 @@ public class Robot extends TimedRobot {
   private VictorSPX left_2 = new VictorSPX(3);
 
   private Joystick joy = new Joystick(0);
-  private double Px ,Py ,Px2 ,Py2 , rad, LSpeed, RSpeed, TriggerValue, diff, mag;
+  private double Px,Py,Px2,Py2,rad, LSpeed, RSpeed, TriggerValue, diff, mag;
   private double velocity = 1;
   private boolean a,b,x;
   private int quad, POV;
   
-  private double Deadzone(double Value, double Deadzone) {
-    if (Math.abs(Value) < Deadzone) return 0;
+  private double Deadzone(double Value) {
+    if (Math.abs(Value) < 0.04) return 0;
     else return Value;
   }
 
@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   }
 
   double CalcDiff(double rad) {
-    return Math.pow(Math.sin(rad), 2);
+    return Math.sin(rad) * Math.cos((Math.PI / 2) - rad);
   }
 
   void CalculateSpeed(double Px, double Py) {
@@ -49,10 +49,10 @@ public class Robot extends TimedRobot {
     }
 
     if (Px > 0 && Py == 0) {
-      RSpeed = -1; LSpeed = 1;
+      RSpeed = 0; LSpeed = 1;
     } 
     if (Px < 0 && Py == 0) {
-      RSpeed = 1; LSpeed = -1;
+      RSpeed = 1; LSpeed = 0;
     }
 
     if (Px == 0 && Py > 0) LSpeed = RSpeed = 1;
@@ -63,6 +63,9 @@ public class Robot extends TimedRobot {
     } else if (TriggerValue !=0 && (Px != 0 && Py != 0)) {
       LSpeed = RSpeed *= TriggerValue;
     } 
+
+    LSpeed = Math.max(-1, Math.min(1, LSpeed)) * velocity;
+    RSpeed = Math.max(-1, Math.min(1, RSpeed)) * velocity;
   }
 
   @Override
@@ -83,16 +86,17 @@ public class Robot extends TimedRobot {
     
     left_2.follow(left_1);
     right_2.follow(right_1);
+
     right_2.setInverted(InvertType.FollowMaster); 
   }
 
   @Override
   public void teleopPeriodic() {
     POV = joy.getPOV();
-    Px = Deadzone(joy.getRawAxis(0), 0.04);
-    Py = Deadzone(-joy.getRawAxis(1), 0.04);
-    Px2 = Deadzone(-joy.getRawAxis(4), 0.04);
-    Py2 = Deadzone(joy.getRawAxis(5), 0.04);
+    Px = Deadzone(joy.getRawAxis(0));
+    Py = Deadzone(-joy.getRawAxis(1));
+    Px2 = Deadzone(-joy.getRawAxis(4));
+    Py2 = Deadzone(joy.getRawAxis(5));
     
     TriggerValue = joy.getRawAxis(2) - joy.getRawAxis(3);
 
@@ -114,33 +118,21 @@ public class Robot extends TimedRobot {
     if (a) velocity = 0.5;
     if (x) velocity = 1;
 
-    LSpeed = Math.max(-1, Math.min(1, LSpeed)) * velocity;
-    RSpeed = Math.max(-1, Math.min(1, RSpeed)) * velocity;
-
     right_1.set(ControlMode.PercentOutput, RSpeed);
     left_1.set(ControlMode.PercentOutput, LSpeed);
   }
 
-  void pov() {
-      switch (POV) {
-      case 90: LSpeed = 1; RSpeed = -1; 
-        break;
-      case 45: LSpeed = 1; RSpeed = 0; 
-        break;
-      case 0: LSpeed = 1; RSpeed = 1; 
-        break;
-      case 315: LSpeed = 0; RSpeed = 1; 
-        break;
-      case 270: LSpeed = -1; RSpeed = 1; 
-        break;
-      case 225: LSpeed = 0; RSpeed = -1; 
-        break;
-      case 180: LSpeed = -1; RSpeed = -1; 
-        break;
-      case 135: LSpeed = -1; RSpeed = 0; 
-        break;
-      default: LSpeed = 0; RSpeed = 0; 
-        break;
+  public void pov() {
+    switch (POV) {
+      case 90: LSpeed = 1; RSpeed = -1; break;
+      case 45: LSpeed = 1; RSpeed = 0; break;
+      case 0: LSpeed = 1; RSpeed = 1; break;
+      case 315: LSpeed = 0; RSpeed = 1; break;
+      case 270: LSpeed = -1; RSpeed = 1; break;
+      case 225: LSpeed = 0; RSpeed = -1; break;
+      case 180: LSpeed = -1; RSpeed = -1; break;
+      case 135: LSpeed = -1; RSpeed = 0; break;
+      default: LSpeed = 0; RSpeed = 0; break;
       }
   }
 }
