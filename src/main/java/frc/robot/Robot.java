@@ -3,8 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
-import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.Joystick;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -108,11 +106,8 @@ public class Robot extends TimedRobot {
     
     TriggerValue = joy.getRawAxis(3) - joy.getRawAxis(2);
 
-    if (POV != -1) {
-      pov();
-    } else {
-      CalculateSpeed(Px, Py);
-    }
+    
+    CalculateSpeed(Px, Py);
 
     if ((Px2 != 0 || Py2 != 0) && (Px == 0 && Py == 0)) {
       CalculateSpeed(Px2, Py2);
@@ -122,6 +117,8 @@ public class Robot extends TimedRobot {
 
     LSpeed = Math.max(-1, Math.min(1, LSpeed)) * velocity;
     RSpeed = Math.max(-1, Math.min(1, RSpeed)) * velocity;
+
+    if (POV != -1) {pov();}
 
     right_1.set(ControlMode.PercentOutput, RSpeed);
     left_1.set(ControlMode.PercentOutput, LSpeed);
